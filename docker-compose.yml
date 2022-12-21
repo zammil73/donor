@@ -1,0 +1,26 @@
+version: "3.0"
+
+services:
+  web:
+    build: .
+    depends_on:
+      - mysql
+    volumes:
+      - ./donor:/var/www/html/
+    ports:
+      - 999:80
+
+  mysql:
+    image: mysql
+    restart: always
+    volumes:
+      - donor-data:/var/lib/mysql
+      - ./donor/sql:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_DATABASE: donor
+      MYSQL_ROOT_PASSWORD: 563
+    ports:
+      - 6743:3306
+
+volumes:
+  donor-data:
